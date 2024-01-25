@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <row>   
+        <row _id="row-4ayt_fex4_zsnz" _uuid="00000000-0000-0000-EFFF-E62BD71610FB" _position="0" _address="https://data.cdc.gov/resource/_9gay-j69q/row-4ayt_fex4_zsnz">
+            <indicator>Obesity among children and adolescents aged 2-19 years</indicator>
+            <panel>2-19 years</panel>
+            <panel_num>1</panel_num>
+            <unit>Percent of population, crude</unit>
+            <unit_num>1</unit_num>
+            <stub_name>Sex</stub_name>
+            <stub_name_num>1</stub_name_num>
+            <stub_label_num>1.2</stub_label_num>
+            <stub_label>Female</stub_label>
+            <year>1999-2002</year>
+            <year_num>2</year_num>
+            <age>2-19 years</age>
+            <age_num>0</age_num>
+            <estimate>14.1</estimate>
+            <se>0.9</se>
+        </row>
+        <row _id="row-wxku~ja8j_iggx" _uuid="00000000-0000-0000-3F00-A3AFBE8CB8C0" _position="0" _address="https://data.cdc.gov/resource/_9gay-j69q/row-wxku~ja8j_iggx">
+            <indicator>Obesity among children and adolescents aged 2-19 years</indicator>
+            <panel>2-19 years</panel>
+            <panel_num>1</panel_num>
+            <unit>Percent of population, crude</unit>
+            <unit_num>1</unit_num>
+            <stub_name>Sex</stub_name>
+            <stub_name_num>1</stub_name_num>
+            <stub_label_num>1.2</stub_label_num>
+            <stub_label>Female</stub_label>
+            <year>2001-2004</year>
+            <year_num>3</year_num>
+            <age>2-19 years</age>
+            <age_num>0</age_num>
+            <estimate>15.2</estimate>
+            <se>1</se>
+        </row>
+        <row _id="row-dqwu~mii5~jcc2" _uuid="00000000-0000-0000-F94F-9350D619AB25" _position="0" _address="https://data.cdc.gov/resource/_9gay-j69q/row-dqwu~mii5~jcc2">
+            <indicator>Obesity among children and adolescents aged 2-19 years</indicator>
+            <panel>2-19 years</panel>
+            <panel_num>1</panel_num>
+            <unit>Percent of population, crude</unit>
+            <unit_num>1</unit_num>
+            <stub_name>Sex</stub_name>
+            <stub_name_num>1</stub_name_num>
+            <stub_label_num>1.2</stub_label_num>
+            <stub_label>Female</stub_label>
+            <year>2003-2006</year>
+            <year_num>4</year_num>
+            <age>2-19 years</age>
+            <age_num>0</age_num>
+            <estimate>15.5</estimate>
+            <se>1.1</se>
+        </row>
+        <row _id="row-ypwz~by8p.sbv9" _uuid="00000000-0000-0000-30C5-A320E43AAF06" _position="0" _address="https://data.cdc.gov/resource/_9gay-j69q/row-ypwz~by8p.sbv9">
+            <indicator>Obesity among children and adolescents aged 2-19 years</indicator>
+            <panel>2-19 years</panel>
+            <panel_num>1</panel_num>
+            <unit>Percent of population, crude</unit>
+            <unit_num>1</unit_num>
+            <stub_name>Sex</stub_name>
+            <stub_name_num>1</stub_name_num>
+            <stub_label_num>1.2</stub_label_num>
+            <stub_label>Female</stub_label>
+            <year>2005-2008</year>
+            <year_num>5</year_num>
+            <age>2-19 years</age>
+            <age_num>0</age_num>
+            <estimate>15.5</estimate>
+            <se>1.1</se>
+        </row>
+        <row _id="row-vsi8~4wn9-3sum" _uuid="00000000-0000-0000-2663-BA095EC2255D" _position="0" _address="https://data.cdc.gov/resource/_9gay-j69q/row-vsi8~4wn9-3sum">
+            <indicator>Obesity among children and adolescents aged 2-19 years</indicator>
+            <panel>2-19 years</panel>
+            <panel_num>1</panel_num>
+            <unit>Percent of population, crude</unit>
+            <unit_num>1</unit_num>
+            <stub_name>Sex</stub_name>
+            <stub_name_num>1</stub_name_num>
+            <stub_label_num>1.2</stub_label_num>
+            <stub_label>Female</stub_label>
+            <year>2007-2010</year>
+            <year_num>6</year_num>
+            <age>2-19 years</age>
+            <age_num>0</age_num>
+            <estimate>15.4</estimate>
+            <se>0.9</se>
+        </row>
+    </row>
+</response>
