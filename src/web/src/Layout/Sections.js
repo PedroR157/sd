@@ -1,6 +1,4 @@
-import Register from "../Menus/Register";
 import TopTeams from "../Menus/TopTeams";
-
 
 const Sections = [
 
@@ -11,10 +9,10 @@ const Sections = [
     },
 
     {
-        id: "register",
-        label: "Register",
-        content: <Register/>
-    }    
+        id: "something-else",
+        label: "Something Else",
+        content: <h1>Something else - Work in progresss</h1>
+    }
 
 ];
 

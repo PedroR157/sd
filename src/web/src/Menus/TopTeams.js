@@ -2,20 +2,20 @@ import React, {useEffect, useState} from "react";
 import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 const DEMO_TEAMS = [
-    {"team": "Now United", country: "UK"},
-    {"team": "Manchester Cachorro", country: "UK"},
-    {"team": "Chewbbacca", country: "UK"},
-    {"team": "Missão Totem", country: "UK"},
-    {"team": "Falha", country: "UK"},
+    {"team": "Manchester United", country: "UK"},
+    {"team": "Manchester City", country: "UK"},
+    {"team": "Chelsea", country: "UK"},
+    {"team": "Tottenham", country: "UK"},
+    {"team": "Fulham", country: "UK"},
 
-    {"team": "Springtrap", country: "Portugal"},
-    {"team": "Portal 2", country: "Portugal"},
-    {"team": "Ben10", country: "Portugal"},
-    {"team": "Briga", country: "Portugal"},
+    {"team": "Sporting", country: "Portugal"},
+    {"team": "Porto", country: "Portugal"},
+    {"team": "Benfica", country: "Portugal"},
+    {"team": "Braga", country: "Portugal"},
 
-    {"team": "PlayStationGay", country: "France"},
-    {"team": "Chá Matte Leão", country: "France"},
-    {"team": "Olimpiadas de Matemática", country: "France"}
+    {"team": "PSG", country: "France"},
+    {"team": "Lyon", country: "France"},
+    {"team": "Olympique de Marseille", country: "France"}
 ];
 
 const COUNTRIES = [...new Set(DEMO_TEAMS.map(team => team.country))];

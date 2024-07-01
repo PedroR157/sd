@@ -7,11 +7,7 @@ const app = express();
 
 app.use(cors());
 
-app.get("/", (req, res) => {
-    res.json({ message: "Ola Express!" });
-  });
-
-app.get('/teachers', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
         const teachers = await knex.select('*').from('teachers');
         res.json(teachers);

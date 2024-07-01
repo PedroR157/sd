@@ -10,28 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Teacher {
-//   name       String   @id
-//   city       String
-//   createdOn  DateTime @default(now()) @map("created_on")
-//   updatedOn  DateTime @updatedAt @map("updated_on")
+model Teacher {
+  name       String   @id
+  city       String
+  createdOn  DateTime @default(now()) @map("created_on")
+  updatedOn  DateTime @updatedAt @map("updated_on")
 
-//   @@map("teachers")
-// }
-
-model XmlData {
-  id          String   @id @map("_id")
-  uuid        String   @map("_uuid")
-  address     String   @map("_address")
-  indicator   String
-  panel       String
-  unit        String
-  stub_name   String
-  year        String
-  age         String
-  estimate    String
-  se          String
-  created_at  DateTime @default(now()) 
-  updated_at  DateTime @updatedAt 
+  @@map("teachers")
 }
 

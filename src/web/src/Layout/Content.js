@@ -7,8 +7,35 @@ function Content({selected}) {
             {
                 Sections.filter(m => m.id === selected)[0].content
             }
+
+        <input type="text" id="pokemonName" placeholder="Pokemon Name">
+        <button onclick="fetchData()">Fetch Pokemon</button>
+        
         </div>
     );
+}
+
+async function fetchData() {
+    try {
+
+         const pokemonName = document.getElementById("pokemonName").value.toLowerCase();
+         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+         
+         if (!response.ok) {
+              throw new Error("Could not fetch resource");
+         }
+
+         const data = await response.json();
+         const pokemonSprite = data.sprites.front_default;
+         const imgElement  = document.getElementById("sprite");
+
+         imgElement.src = pokemonSprite;
+         imgElement.style.display = "block";
+    
+    }
+    catch (error) {
+         console.error(error);
+    } 
 }
 
 export default Content;

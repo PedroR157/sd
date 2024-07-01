@@ -1,13 +1,10 @@
 /* Sample table and data that we can insert once the database is created for the first time */
-CREATE TABLE public.users (
+CREATE TABLE public.teachers (
 	name    VARCHAR (100),
-	email    VARCHAR(100),
-	password VARCHAR(50),
+	city    VARCHAR(100),
 	created_on      TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_on      TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO users(name, email) VALUES('Luís Teófilo', 'Porto');
-
--- INSERT INTO teachers(name, city) VALUES('Luís Teófilo', 'Porto');
--- INSERT INTO teachers(name, city) VALUES('Ricardo Castro', 'Braga');
+INSERT INTO teachers(name, city) VALUES('Luís Teófilo', 'Porto');
+INSERT INTO teachers(name, city) VALUES('Ricardo Castro', 'Braga');
