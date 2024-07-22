@@ -3,6 +3,7 @@ module.exports = {
         client: 'pg',
         connection: {
             host: 'auth-db',
+            port: '5432',
             user: 'sd',
             password: 'sd',
             database: 'sd'
