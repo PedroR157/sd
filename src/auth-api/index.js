@@ -46,6 +46,39 @@ const authorize = (role) => {
 //   console.log('All users:', users);
 // }
 
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username and password are required" });
+    }
+
+    const user = await knex("users").where({ username }).first();
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign({ permission: user.permission }, SECRET_KEY, { expiresIn: "1d", subject: user.id.toString() });
+    res.cookie('token', token, { httpOnly: true });
+    res.json({ message: "Login successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred during login" });
+  }
+});
+
+app.get("/users", authenticateToken, authorize("admin"), async (req, res) => {
+  try {
+    const users = await knex.select("*").from("users");
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving data");
+  }
+});
+
 app.post('/adduser', async (req, res) => {
   try {
     const { username, password, permission = "view" } = req.body;

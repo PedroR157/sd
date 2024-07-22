@@ -2,8 +2,8 @@ module.exports = {
     db: {
         client: 'pg',
         connection: {
-            host: 'auth-db',
-            port: '5432',
+            host: 'localhost', //localhost , auth-db
+            port: '15432',
             user: 'sd',
             password: 'sd',
             database: 'sd'
