@@ -1,8 +1,7 @@
 // src/pokemons/pokemons.controller.ts
 import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
 import { PokemonsService } from './pokemons.service';
-import { CreatePokemonDto } from './DTO/create-pokemon.dto';
-import { UpdatePokemonDto } from './DTO/update-pokemon.dto';
+import { MoveInsert } from 'src/models/pokemons.model';
 
 @Controller('pokemons')
 export class PokemonsController {
@@ -19,17 +18,17 @@ export class PokemonsController {
   }
 
   @Post()
-  async create(@Body() createPokemonDto: CreatePokemonDto) {
-    return this.pokemonsService.create(createPokemonDto);
+  async create(@Body() data : MoveInsert) {
+    return this.pokemonsService.create(data);
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updatePokemonDto: UpdatePokemonDto) {
-    return this.pokemonsService.update(+id, updatePokemonDto);
+  async update(@Param('id') id: number, @Body() data: MoveInsert) {
+    return this.pokemonsService.update(+id, data);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: number) {
     return this.pokemonsService.remove(+id);
   }
 }
