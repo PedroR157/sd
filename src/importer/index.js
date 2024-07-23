@@ -22,7 +22,9 @@ const JSONObserver = {
     list: function () {
         console.log("Listing all available JSON files!");
         try {
-            const files = fs.readdirSync("/data");
+            const dataPath = path.join(__dirname, 'data');
+            console.log(`Checking files in: ${dataPath}`);
+            const files = fs.readdirSync(dataPath);
             files.filter(file => file.endsWith(".json")).forEach(this.processFile);
         } catch (error) {
             console.log(`Error accessing /data: ${error}`);
@@ -31,7 +33,7 @@ const JSONObserver = {
 
     processFile: function (fileName) {
         console.log(`Processing file: ${fileName}`);
-        const filePath = path.join("/data", fileName);
+        const filePath = path.join(__dirname, 'data', fileName);
         const content = fs.readFileSync(filePath, 'utf8');
         JSONObserver.parse(content);
     },
