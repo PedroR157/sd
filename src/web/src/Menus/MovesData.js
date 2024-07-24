@@ -1,5 +1,22 @@
 import React, {useEffect, useState} from "react";
-import {Box, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {
+    Box,
+    Container,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    IconButton,
+    CircularProgress
+} from "@mui/material";
+import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 
 const DEMO_TEAMS = [
     {"team": "Manchester United", country: "UK"},
@@ -86,6 +103,42 @@ function TopTeams() {
                         selectedCountry ? <CircularProgress/> : "--"
                 }
 
+            </Container>
+
+            <Container>
+                <TableContainer component={Paper} sx={{ mt: 4 }}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Username</TableCell>
+                                <TableCell>Permission</TableCell>
+                                <TableCell>Actions</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {users.length > 0 ? (
+                                users.map((user) => (
+                                    <TableRow key={user.id}>
+                                        <TableCell>{user.username}</TableCell>
+                                        <TableCell>{user.permission}</TableCell>
+                                        <TableCell>
+                                            <IconButton onClick={() => handleEdit(user)}>
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => handleDelete(user.id)}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={3}>No users found</TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Container>
         </>
     );

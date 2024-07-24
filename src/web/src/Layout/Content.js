@@ -9,8 +9,8 @@ function Content({selected}) {
                 Sections.filter(m => m.id === selected)[0].content
             }
             
-            <input type="text" id="pokemonName" placeholder="Pokemon Name"></input>
-            <button onclick="fetchData()">Fetch Pokemon</button>
+            {/* <input type="text" id="pokemonName" placeholder="Pokemon Name"></input>
+            <button onclick="fetchData()">Fetch Pokemon</button> */}
 
             {/* <script>
             async function fetchData() {

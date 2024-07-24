@@ -6,10 +6,7 @@ function Menu({selectedTab = Sections[0].id, changeSelectedTab}) {
     return (
         <div className={"Menu"}>
             <div className={"Logo"}>
-                <img src={"logo512.png"} alt={""}/>
-                <div className={"Title"}>
-                    Distributed Services
-                </div>
+                <img src={"logo.png"} alt={""}/>
             </div>
             <Tabs value={selectedTab} orientation={"vertical"} centered onChange={changeSelectedTab}>
                 {

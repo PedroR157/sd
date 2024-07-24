@@ -76,7 +76,25 @@ function Login() {
                     onSubmit={handleLogin}
                     sx={{ width: "100%", mt: 3 }}
                 >
-                    <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
+                    <FormControl 
+                        sx={{
+                            mt: 5,
+                            width: "100%",
+                            border: "none",
+                            '& .MuiInputBase-root': {
+                                borderRadius: "8px 8px 0px 0px",
+                                backgroundColor: '#12543a',
+
+                                '&:hover': {
+                                    backgroundColor: '#113e2c',
+                                    transition: 'all 0.4s ease'
+                                },
+                            },
+                            '& .MuiInputLabel-root': {
+                                color: '#fff'
+                            },
+                        }} 
+                        variant="outlined" >
                         <InputLabel htmlFor="login-username">Username</InputLabel>
                         <Input
                             id="login-username"
@@ -87,7 +105,25 @@ function Login() {
                             required
                         />
                     </FormControl>
-                    <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
+                    <FormControl 
+                         sx={{
+                            mt: 5,
+                            width: "100%",
+                            border: "none",
+                            '& .MuiInputBase-root': {
+                                borderRadius: "8px 8px 0px 0px",
+                                backgroundColor: '#12543a',
+
+                                '&:hover': {
+                                    backgroundColor: '#113e2c',
+                                    transition: 'all 0.4s ease'
+                                },
+                            },
+                            '& .MuiInputLabel-root': {
+                                color: '#fff'
+                            },
+                        }}  
+                        variant="outlined">
                         <InputLabel htmlFor="login-password">Password</InputLabel>
                         <Input
                             id="login-password"

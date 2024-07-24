@@ -24,11 +24,11 @@ function App() {
                 <Content selected={selectedTab}/>
             </div>
         </ThemeProvider>
-
+{/* 
         <div>
             <ListGroup></ListGroup>
-            <img src={"Bulbassaur.png"}>lol</img>
-        </div>
+            <img src={"Bulbassaur.png"}></img>
+        </div> */}
         </>
     );
 }

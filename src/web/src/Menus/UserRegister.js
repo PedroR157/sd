@@ -17,7 +17,8 @@ import {
     TableRow,
     Paper,
     IconButton,
-    Alert
+    Alert,
+    TextField
 } from "@mui/material";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 
@@ -128,7 +129,7 @@ function Register() {
                 }}
             >
                 <Typography component="h1" variant="h5">
-                    {editingUser ? "Editar Utilizador" : "Registar"}
+                    {editingUser ? "Edit User" : "Register"}
                 </Typography>
                 {message && (
                     <Alert severity={messageType} sx={{ mt: 2 }}>
@@ -140,7 +141,25 @@ function Register() {
                     onSubmit={handleSubmit}
                     sx={{ width: "100%", mt: 3 }}
                 >
-                    <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
+                    <FormControl 
+                     sx={{
+                        mt: 5,
+                        width: "100%",
+                        border: "none",
+                        '& .MuiInputBase-root': {
+                            borderRadius: "8px 8px 0px 0px",
+                            backgroundColor: '#12543a',
+
+                            '&:hover': {
+                                backgroundColor: '#113e2c',
+                                transition: 'all 0.4s ease'
+                            },
+                        },
+                        '& .MuiInputLabel-root': {
+                            color: '#fff'
+                        },
+                    }}     
+                    variant="outlined">
                         <InputLabel htmlFor="username">Username</InputLabel>
                         <Input
                             id="username"
@@ -151,7 +170,24 @@ function Register() {
                             required
                         />
                     </FormControl>
-                    <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
+                    <FormControl 
+                        sx={{
+                            mt: 5,
+                            width: "100%",
+                            border: "none",
+                            '& .MuiInputBase-root': {
+                                borderRadius: "8px 8px 0px 0px",
+                                backgroundColor: '#12543a',
+
+                                '&:hover': {
+                                    backgroundColor: '#113e2c',
+                                    transition: 'all 0.4s ease'
+                                },
+                            },
+                            '& .MuiInputLabel-root': {
+                                color: '#fff'
+                            },
+                        }} variant="outlined">
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input
                             id="password"
@@ -162,8 +198,26 @@ function Register() {
                             required
                         />
                     </FormControl>
-                    <FormControl sx={{ mt: 2, width: "100%" }} variant="outlined">
-                        <InputLabel htmlFor="permission">Permissão</InputLabel>
+                    <FormControl 
+                        sx={{
+                            mt: 5,
+                            width: "100%",
+                            border: "none",
+                            '& .MuiInputBase-root': {
+                                borderRadius: "8px 8px 0px 0px",
+                                backgroundColor: '#12543a',
+
+                                '&:hover': {
+                                    backgroundColor: '#113e2c',
+                                    transition: 'all 0.4s ease'
+                                },
+                            },
+                            '& .MuiInputLabel-root': {
+                                color: '#fff'
+                            },
+                        }} 
+                        variant="outlined">
+                        <InputLabel htmlFor="permission">Permission</InputLabel>
                         <Select
                             id="permission"
                             name="permission"
@@ -182,7 +236,7 @@ function Register() {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {editingUser ? "Salvar Alterações" : "Registar"}
+                        {editingUser ? "Save Changes" : "REGISTER"}
                     </Button>
                 </Box>
                 <TableContainer component={Paper} sx={{ mt: 4 }}>
@@ -190,8 +244,8 @@ function Register() {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Username</TableCell>
-                                <TableCell>Permissão</TableCell>
-                                <TableCell>Ações</TableCell>
+                                <TableCell>Permission</TableCell>
+                                <TableCell>Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
