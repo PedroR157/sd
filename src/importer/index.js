@@ -93,15 +93,15 @@ const JSONObserver = {
 
             // Deletar todos os dados das tabelas
             const deleteQuery = `
-                DELETE FROM "Moves";
-                DELETE FROM "MoveLearnMethods";
-                DELETE FROM "VersionGroups";
-                DELETE FROM "VersionGroupDetails";
+                DELETE FROM "Move";
+                DELETE FROM "MoveLearnMethod";
+                DELETE FROM "VersionGroup";
+                DELETE FROM "VersionGroupDetail";
             `;
 
             try {
                 await client.query(deleteQuery);
-                console.log('Deleted all data from "Moves", "MoveLearnMethods", "VersionGroups", and "VersionGroupDetails" tables.');
+                console.log('Deleted all data from "Move", "MoveLearnMethod", "VersionGroup", and "VersionGroupDetail" tables.');
             } catch (err) {
                 console.error(`Error deleting data: ${err}`);
             }
@@ -109,7 +109,7 @@ const JSONObserver = {
             // Inserir dados na tabela Moves
             for (const move of moves) {
                 const query = `
-                    INSERT INTO "Moves" (move_name, move_url) 
+                    INSERT INTO "Move" (move_name, move_url) 
                     VALUES ($1, $2)
                 `;
                 const values = [move.move_name, move.move_url];
@@ -125,7 +125,7 @@ const JSONObserver = {
             // Inserir dados na tabela MoveLearnMethods
             for (const method of moveLearnMethods) {
                 const query = `
-                    INSERT INTO "MoveLearnMethods" (method_name, method_url) 
+                    INSERT INTO "MoveLearnMethod" (method_name, method_url) 
                     VALUES ($1, $2)
                 `;
                 const values = [method.method_name, method.method_url];
@@ -134,14 +134,14 @@ const JSONObserver = {
                     await client.query(query, values);
                     console.log(`Inserted into "MoveLearnMethods": ${JSON.stringify(method)}`);
                 } catch (err) {
-                    console.error(`Error inserting into "MoveLearnMethods": ${err}`);
+                    console.error(`Error inserting into "MoveLearnMethod": ${err}`);
                 }
             }
 
             // Inserir dados na tabela VersionGroups
             for (const group of versionGroups) {
                 const query = `
-                    INSERT INTO "VersionGroups" (group_name, group_url) 
+                    INSERT INTO "VersionGroup" (group_name, group_url) 
                     VALUES ($1, $2)
                 `;
                 const values = [group.group_name, group.group_url];
@@ -150,14 +150,14 @@ const JSONObserver = {
                     await client.query(query, values);
                     console.log(`Inserted into "VersionGroups": ${JSON.stringify(group)}`);
                 } catch (err) {
-                    console.error(`Error inserting into "VersionGroups": ${err}`);
+                    console.error(`Error inserting into "VersionGroup": ${err}`);
                 }
             }
 
             // Inserir dados na tabela VersionGroupDetails
             for (const detail of versionGroupDetails) {
                 const query = `
-                    INSERT INTO "VersionGroupDetails" 
+                    INSERT INTO "VersionGroupDetail" 
                     (move_name, method_name, group_name, level_learned_at) 
                     VALUES ($1, $2, $3, $4)
                 `;
@@ -169,7 +169,7 @@ const JSONObserver = {
                     await client.query(query, values);
                     console.log(`Inserted into "VersionGroupDetails": ${JSON.stringify(detail)}`);
                 } catch (err) {
-                    console.error(`Error inserting into "VersionGroupDetails": ${err}`);
+                    console.error(`Error inserting into "VersionGroupDetail": ${err}`);
                 }
             }
 

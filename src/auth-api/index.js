@@ -1,18 +1,33 @@
-const express = require('express');
-const config = require('./knexfile');
-const knex = require('knex');
-const db = knex(config.development);
-module.exports = db;
-
-const jwt = require('jsonwebtoken');
-
+const express = require("express");
+const cors = require("cors");
+const knexConfig = require("./knexfile").db;
+const knex = require("knex")(knexConfig);
+const jwt = require("jsonwebtoken");
 const crypto = require('crypto');
-
+const cookieParser = require("cookie-parser");
 const app = express();
+const SECRET_KEY = "Carapicuiba";
 
-// middleware autenticação
+app.use(cookieParser());
+app.use(cors());
+app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("Auth API is kinda working");
+});
+
+// Função para gerar salt
+const generateSalt = () => {
+  return crypto.randomBytes(16).toString("hex");
+};
+
+// Função para gerar hash com salt
+const hashPassword = (password, salt) => {
+  return crypto.pbkdf2Sync(password, salt, 1000, 64, `sha256`).toString(`hex`);
+};
+
+// Middleware para autenticação
 const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token || req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+  const token = req.cookies.token || (req.headers['authorization'] && req.headers['authorization'].split(' ')[1]);
   if (!token) return res.sendStatus(401);
 
   jwt.verify(token, SECRET_KEY, (err, user) => {
@@ -22,8 +37,7 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-
-//verifica o nivel de permissão
+// Middleware para autorização (exemplo: somente admin)
 const authorize = (role) => {
   return (req, res, next) => {
     if (req.user.permission !== role) {
@@ -33,19 +47,7 @@ const authorize = (role) => {
   };
 };
 
-// =============================================================================================================
-
-
-// async function main() {
-//   // Inserir um novo usuário
-//   const newUser = await db('users').insert({ name: 'Alice', email: 'alice@example.com' }).returning('*');
-//   console.log('Created new user:', newUser);
-
-//   // Obter todos os usuários
-//   const users = await db('users').select('*');
-//   console.log('All users:', users);
-// }
-
+// Rota de login
 app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -54,22 +56,38 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Username and password are required" });
     }
 
+    // Buscar o usuário na base de dados
     const user = await knex("users").where({ username }).first();
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ permission: user.permission }, SECRET_KEY, { expiresIn: "1d", subject: user.id.toString() });
+    // Verificar a senha
+    const hashedPassword = hashPassword(password, user.salt);
+
+    if (user.password !== hashedPassword) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Criar o token JWT
+    const token = jwt.sign({ permission: user.permission }, SECRET_KEY, { expiresIn: "1h", subject: user.id.toString() });
+
+    // Enviar o token e dados do usuário como cookies
     res.cookie('token', token, { httpOnly: true });
-    res.json({ message: "Login successfully" });
+    res.cookie('userlogin', user.id, { httpOnly: true });
+    res.cookie('username', user.username, { httpOnly: true });
+
+    // Responder com sucesso
+    res.json({ message: "Login successfully", userId: user.id, username: user.username });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred during login" });
   }
 });
 
-app.get("/users", authenticateToken, authorize("admin"), async (req, res) => {
+
+app.get("/users",/*authenticateToken, authorize("admin"),*/ async (req, res) => {
   try {
     const users = await knex.select("*").from("users");
     res.json(users);
@@ -84,19 +102,18 @@ app.post('/adduser', async (req, res) => {
     const { username, password, permission = "view" } = req.body;
 
     if (!username || !password) {
-      return res.status(400).json({ message: "Username and password are required" });
+      return res.status(400).json({ message: "Username, password and permission are required" });
     }
 
-    const hash = crypto.createHash('sha256');
-    hash.update(password);
-    const resultadoHash = hash.digest('hex');
+    const salt = generateSalt();
+    const hashedPassword = hashPassword(password, salt);
+
     await knex('users').insert({
       username,
-      password: resultadoHash,
+      password: hashedPassword,
+      salt,
       permission
     });
-
-
     res.sendStatus(201);
   } catch (error) {
     console.error(error);
@@ -113,15 +130,15 @@ app.put('/users/:id', authenticateToken, authorize("admin"), async (req, res) =>
       return res.status(400).json({ message: "Username and password are required" });
     }
 
-    const hash = crypto.createHash('sha256');
-    hash.update(password);
-    const resultadoHash = hash.digest('hex');
+    const salt = generateSalt();
+    const hashedPassword = hashPassword(password, salt);
 
     await knex('users')
       .where({ id })
       .update({
         username,
-        password: resultadoHash,
+        password: hashedPassword,
+        salt,
         permission
       });
 
@@ -150,4 +167,4 @@ app.delete('/users/:id', authenticateToken, authorize("admin"), async (req, res)
 const PORT = process.env.PORT || 18080;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-}); 
+});
