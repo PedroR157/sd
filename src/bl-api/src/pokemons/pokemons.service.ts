@@ -11,10 +11,10 @@ export class PokemonsService {
   async findMany(): Promise<Move[]> {
     return this.prisma.move.findMany({
       include: {
-        version_group_details: {
+        versionGroupDetails: {
           include: {
-            move_learn_method: true,
-            version_group: true
+            moveLearnMethod: true,
+            versionGroup: true
           }
         }
       }
@@ -22,66 +22,66 @@ export class PokemonsService {
   }
 
   async findUnique(move_id: number): Promise<Move> {
-    const pokeData = await this.prisma.move.findUnique({
+    const moveData = await this.prisma.move.findUnique({
       where: { move_id },
       include: {
-        version_group_details: {
+        versionGroupDetails: {
           include: {
-            move_learn_method: true,
-            version_group: true
+            moveLearnMethod: true,
+            versionGroup: true
           }
         }
       }
     });
 
-    if (!pokeData) {
+    if (!moveData) {
       throw new NotFoundException(`Can't find move ID => ${move_id}`);
     }
-    return pokeData;
+    return moveData;
   }
 
   async create(move: MoveInsert): Promise<Move> {
     const moveValidation = MoveInfoInsertSchema.parse(move);
 
     const moveLearnMethod = await this.prisma.moveLearnMethod.upsert({
-      where: { method_name: moveValidation.move_learn_method.method_name },
+      where: { mlm_name: moveValidation.move_learn_method.mlm_name },
       update: {},
       create: {
-        method_name: moveValidation.move_learn_method.method_name,
-        method_url: moveValidation.move_learn_method.method_url
+        mlm_name: moveValidation.move_learn_method.mlm_name,
+        url: moveValidation.move_learn_method.url
       }
     });
 
     const versionGroup = await this.prisma.versionGroup.upsert({
-      where: { group_name: moveValidation.version_group.group_name },
+      where: { vg_name: moveValidation.version_group.vg_name },
       update: {},
       create: {
-        group_name: moveValidation.version_group.group_name,
-        group_url: moveValidation.version_group.group_url
+        vg_name: moveValidation.version_group.vg_name,
+        url: moveValidation.version_group.url
       }
     });
 
     return this.prisma.move.create({
       data: {
         move_name: moveValidation.move.move_name,
-        move_url: moveValidation.move.move_url,
-        version_group_details: {
+        url: moveValidation.move.url,
+        versionGroupDetails: {
           create: {
-            level_learned_at: parseInt(moveValidation.level_learned_at, 10),
-            move_learn_method: {
-              connect: { method_id: moveLearnMethod.method_id }
+            level_learned_at: moveValidation.level_learned_at,
+            moveLearnMethod: {
+              connect: { mlm_id: moveLearnMethod.mlm_id }
             },
-            version_group: {
-              connect: { group_id: versionGroup.group_id }
+            versionGroup: {
+              connect: { vg_id: versionGroup.vg_id }
             }
           }
         }
       },
       include: {
-        version_group_details: {
+        versionGroupDetails: {
           include: {
-            move_learn_method: true,
-            version_group: true
+            moveLearnMethod: true,
+            versionGroup: true
           }
         }
       }
@@ -92,20 +92,20 @@ export class PokemonsService {
     const moveValidation = MoveInfoInsertSchema.parse(move);
 
     const moveLearnMethod = await this.prisma.moveLearnMethod.upsert({
-      where: { method_name: moveValidation.move_learn_method.method_name },
-      update: { method_url: moveValidation.move_learn_method.method_url },
+      where: { mlm_name: moveValidation.move_learn_method.mlm_name },
+      update: { url: moveValidation.move_learn_method.url },
       create: {
-        method_name: moveValidation.move_learn_method.method_name,
-        method_url: moveValidation.move_learn_method.method_url
+        mlm_name: moveValidation.move_learn_method.mlm_name,
+        url: moveValidation.move_learn_method.url
       }
     });
 
     const versionGroup = await this.prisma.versionGroup.upsert({
-      where: { group_name: moveValidation.version_group.group_name },
-      update: { group_url: moveValidation.version_group.group_url },
+      where: { vg_name: moveValidation.version_group.vg_name },
+      update: { url: moveValidation.version_group.url },
       create: {
-        group_name: moveValidation.version_group.group_name,
-        group_url: moveValidation.version_group.group_url
+        vg_name: moveValidation.version_group.vg_name,
+        url: moveValidation.version_group.url
       }
     });
 
@@ -113,33 +113,29 @@ export class PokemonsService {
       where: { move_id },
       data: {
         move_name: moveValidation.move.move_name,
-        move_url: moveValidation.move.move_url,
-        version_group_details: {
+        url: moveValidation.move.url,
+        versionGroupDetails: {
           update: {
             data: {
-              level_learned_at: parseInt(moveValidation.level_learned_at, 10),
-              move_learn_method: {
-                connect: { method_id: moveLearnMethod.method_id }
+              level_learned_at: moveValidation.level_learned_at,
+              moveLearnMethod: {
+                connect: { mlm_id: moveLearnMethod.mlm_id }
               },
-              version_group: {
-                connect: { group_id: versionGroup.group_id }
+              versionGroup: {
+                connect: { vg_id: versionGroup.vg_id }
               }
             },
             where: {
-              move_id_method_id_group_id: {
-                move_id,
-                method_id: moveLearnMethod.method_id,
-                group_id: versionGroup.group_id
-              }
+              vgd_id: move_id // Atualização baseada no id único de VersionGroupDetail
             }
           }
         }
       },
       include: {
-        version_group_details: {
+        versionGroupDetails: {
           include: {
-            move_learn_method: true,
-            version_group: true
+            moveLearnMethod: true,
+            versionGroup: true
           }
         }
       }

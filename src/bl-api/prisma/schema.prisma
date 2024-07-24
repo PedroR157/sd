@@ -11,33 +11,30 @@ datasource db {
 }
 
 model Move {
-  id                  Int                  @id @default(autoincrement())
-  name                String
-  url                 String
-  versionGroupDetails VersionGroupDetail[] @relation("MoveToVersionGroupDetails")
+  move_id   Int    @id @default(autoincrement())
+  move_name String
+  url       String
 }
 
 model VersionGroupDetail {
-  id                Int             @id @default(autoincrement())
-  moveId            Int
-  versionGroupId    Int
-  moveLearnMethodId Int
-  levelLearnedAt    Int
-  move              Move            @relation("MoveToVersionGroupDetails", fields: [moveId], references: [id])
-  versionGroup      VersionGroup    @relation("VersionGroupToDetails", fields: [versionGroupId], references: [id])
-  moveLearnMethod   MoveLearnMethod @relation("MoveLearnMethodToDetails", fields: [moveLearnMethodId], references: [id])
+  vgd_id          Int             @id @default(autoincrement())
+  level_learned_at  Int
+  vg_id           Int
+  versionGroup    VersionGroup    @relation("VersionGroupToDetails", fields: [vg_id], references: [vg_id])
+  mlm_id          Int
+  moveLearnMethod MoveLearnMethod @relation("MoveLearnMethodToDetails", fields: [mlm_id], references: [mlm_id])
 }
 
 model VersionGroup {
-  id      Int                  @id @default(autoincrement())
-  name    String
+  vg_id   Int                  @id @default(autoincrement())
+  vg_name String
   url     String
   details VersionGroupDetail[] @relation("VersionGroupToDetails")
 }
 
 model MoveLearnMethod {
-  id      Int                  @id @default(autoincrement())
-  name    String
-  url     String
-  details VersionGroupDetail[] @relation("MoveLearnMethodToDetails")
+  mlm_id   Int                  @id @default(autoincrement())
+  mlm_name String
+  url      String
+  details  VersionGroupDetail[] @relation("MoveLearnMethodToDetails")
 }

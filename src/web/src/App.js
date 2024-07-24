@@ -27,7 +27,7 @@ function App() {
 
         <div>
             <ListGroup></ListGroup>
-            <img src={"Bulbassaur.png"}></img>
+            <img src={"Bulbassaur.png"}>lol</img>
         </div>
         </>
     );
