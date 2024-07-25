@@ -2,9 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const knexConfig = require("./knexfile").db;
 const knex = require("knex")(knexConfig);
+
+// para proteção de rotas
 const jwt = require("jsonwebtoken");
-const crypto = require('crypto');
 const cookieParser = require("cookie-parser");
+
+const crypto = require('crypto');
 const app = express();
 const SECRET_KEY = "sd";
 
@@ -14,16 +17,6 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Auth API is kinda working");
 });
-
-// Função para gerar salt
-const generateSalt = () => {
-  return crypto.randomBytes(16).toString("hex");
-};
-
-// Função para gerar hash com salt
-const hashPassword = (password, salt) => {
-  return crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`);
-};
 
 // Middleware para autenticação
 const authenticateToken = (req, res, next) => {
@@ -63,8 +56,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Verificar a senha
-    const hashedPassword = hashPassword(password, user.salt);
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
     if (user.password !== hashedPassword) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -75,8 +67,6 @@ app.post("/login", async (req, res) => {
 
     // Enviar o token e dados do usuário como cookies
     res.cookie('token', token, { httpOnly: true });
-    res.cookie('userlogin', user.id, { httpOnly: true });
-    res.cookie('username', user.username, { httpOnly: true });
 
     // Responder com sucesso
     res.json({ message: "Login successfully", userId: user.id, username: user.username });
@@ -87,17 +77,7 @@ app.post("/login", async (req, res) => {
 });
 
 
-app.get("/teachers", authenticateToken, async (req, res) => {
-  try {
-    const teachers = await knex.select("*").from("teachers");
-    res.json(teachers);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error retrieving data");
-  }
-});
-
-app.get("/users",authenticateToken, authorize("admin"), async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
     const users = await knex.select("*").from("users");
     res.json(users);
@@ -109,19 +89,17 @@ app.get("/users",authenticateToken, authorize("admin"), async (req, res) => {
 
 app.post('/adduser', async (req, res) => {
   try {
-    const { username, password, permission = "view" } = req.body;
+    const { username, password, permission } = req.body;
 
     if (!username || !password) {
       return res.status(400).json({ message: "Username, password and permission are required" });
     }
 
-    const salt = generateSalt();
-    const hashedPassword = hashPassword(password, salt);
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
     await knex('users').insert({
       username,
       password: hashedPassword,
-      salt,
       permission
     });
     res.sendStatus(201);
@@ -131,7 +109,7 @@ app.post('/adduser', async (req, res) => {
   }
 });
 
-app.put('/users/:id', authenticateToken, authorize("admin"), async (req, res) => {
+app.put('/users/:id',  async (req, res) => {
   try {
     const { id } = req.params;
     const { username, password, permission } = req.body;
@@ -140,15 +118,13 @@ app.put('/users/:id', authenticateToken, authorize("admin"), async (req, res) =>
       return res.status(400).json({ message: "Username and password are required" });
     }
 
-    const salt = generateSalt();
-    const hashedPassword = hashPassword(password, salt);
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
     await knex('users')
       .where({ id })
       .update({
         username,
         password: hashedPassword,
-        salt,
         permission
       });
 
@@ -159,7 +135,7 @@ app.put('/users/:id', authenticateToken, authorize("admin"), async (req, res) =>
   }
 });
 
-app.delete('/users/:id', authenticateToken, authorize("admin"), async (req, res) => {
+app.delete('/users/:id',  async (req, res) => {
   try {
     const { id } = req.params;
 

@@ -75,7 +75,7 @@ services:
       - "${FRONTEND_PORT}:3000"
     environment:
       - USE_DEV_MODE
-      - PORT=80
+      - PORT=3000
       - REACT_APP_API_URL=http://localhost:${BL_API_PORT}
 
 networks:

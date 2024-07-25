@@ -17,8 +17,7 @@ import {
     TableRow,
     Paper,
     IconButton,
-    Alert,
-    TextField
+    Alert
 } from "@mui/material";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 
@@ -46,7 +45,7 @@ function Register() {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            console.log(data); // Verifique a resposta da API
+            console.log(data); 
             setUsers(data);
         } catch (error) {
             console.error("Error fetching users:", error);

@@ -10,7 +10,7 @@ app.use((req, res, next) => {
     res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
 
-const port = parseInt(process?.argv[2] || 3000);
+const port = parseInt(process?.argv[2] || 3000 || 80);
 
 // start express server on port 5000
 app.listen(port, () => {
