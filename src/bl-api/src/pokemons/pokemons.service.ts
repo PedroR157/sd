@@ -11,10 +11,10 @@ export class PokemonsService {
   async findMany(): Promise<Move[]> {
     return this.prisma.move.findMany({
       include: {
-        versionGroupDetails: {
+        VersionGroupDetails: {
           include: {
-            moveLearnMethod: true,
-            versionGroup: true
+            MoveLearnMethod: true,
+            VersionGroup: true
           }
         }
       }

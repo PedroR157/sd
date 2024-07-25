@@ -52,7 +52,11 @@
 
 .css-1r7avug-MuiButtonBase-root-MuiTab-root.Mui-selected {
     color: #34765d !important;
+    font-size: 20px;
+    font-weight: 900;
+    transition: all 0.3s ease;
 }
+
 .css-1vpl9xp-MuiButtonBase-root-MuiButton-root { 
     background-color: #32de92 !important;
 }

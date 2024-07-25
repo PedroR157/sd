@@ -54,7 +54,7 @@ function Login() {
     };
 
     return (
-        <Container>
+        <Container sx={{ transition: "all 0.5s ease"}}>
             <Box
                 sx={{
                     marginTop: 4,

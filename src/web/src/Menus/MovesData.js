@@ -105,7 +105,7 @@ function TopTeams() {
 
             </Container>
 
-            <Container>
+            {/* <Container>
                 <TableContainer component={Paper} sx={{ mt: 4 }}>
                     <Table>
                         <TableHead>
@@ -139,7 +139,7 @@ function TopTeams() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </Container>
+            </Container> */}
         </>
     );
 }

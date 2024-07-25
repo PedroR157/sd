@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require('crypto');
 const cookieParser = require("cookie-parser");
 const app = express();
-const SECRET_KEY = "Carapicuiba";
+const SECRET_KEY = "sd";
 
 app.use(cookieParser());
 app.use(cors());
@@ -15,6 +15,15 @@ app.get("/", (req, res) => {
   res.send("Auth API is kinda working");
 });
 
+// Função para gerar salt
+const generateSalt = () => {
+  return crypto.randomBytes(16).toString("hex");
+};
+
+// Função para gerar hash com salt
+const hashPassword = (password, salt) => {
+  return crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`);
+};
 
 // Middleware para autenticação
 const authenticateToken = (req, res, next) => {
@@ -54,6 +63,8 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    // Verificar a senha
+    const hashedPassword = hashPassword(password, user.salt);
 
     if (user.password !== hashedPassword) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -76,7 +87,17 @@ app.post("/login", async (req, res) => {
 });
 
 
-app.get("/users",/*authenticateToken, authorize("admin"),*/ async (req, res) => {
+app.get("/teachers", authenticateToken, async (req, res) => {
+  try {
+    const teachers = await knex.select("*").from("teachers");
+    res.json(teachers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving data");
+  }
+});
+
+app.get("/users",authenticateToken, authorize("admin"), async (req, res) => {
   try {
     const users = await knex.select("*").from("users");
     res.json(users);
@@ -89,14 +110,18 @@ app.get("/users",/*authenticateToken, authorize("admin"),*/ async (req, res) => 
 app.post('/adduser', async (req, res) => {
   try {
     const { username, password, permission = "view" } = req.body;
-    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
     if (!username || !password) {
       return res.status(400).json({ message: "Username, password and permission are required" });
     }
+
+    const salt = generateSalt();
+    const hashedPassword = hashPassword(password, salt);
+
     await knex('users').insert({
       username,
       password: hashedPassword,
+      salt,
       permission
     });
     res.sendStatus(201);
@@ -110,17 +135,20 @@ app.put('/users/:id', authenticateToken, authorize("admin"), async (req, res) =>
   try {
     const { id } = req.params;
     const { username, password, permission } = req.body;
-    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
     if (!username || !password) {
       return res.status(400).json({ message: "Username and password are required" });
     }
+
+    const salt = generateSalt();
+    const hashedPassword = hashPassword(password, salt);
 
     await knex('users')
       .where({ id })
       .update({
         username,
         password: hashedPassword,
+        salt,
         permission
       });
 
